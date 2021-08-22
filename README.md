@@ -26,9 +26,23 @@
   - Step의 실행 후 상태를 뜻한다.
   - 기본적으로 `ExitStatus`의 `exitCode`는 `Step`의 `BatchStatus`와 같도록 설정이 되어 있다.
 - **JobExecutionDecider**
-  - `Spring Batch`에서는 `Step`들의 `Flow`속에서 분기만 담당하는 역할을 한다.
+  - `Spring Batch`에서는 `Step`의 `Flow`속에서 분기만 담당하는 역할을 한다.
+- **Job Parameter**
+  - 외부 혹은 내부에서 파라미터를 받아 여러 Batch 컴포넌트에서 사용할 수 있다.
+  - `Job Parameter`를 사용하기 위해서는 `Spring Batch` 전용 `Scope`를 꼭 선언해야 한다.
+    - 크게 `@StepScope`와 `@JobScope` 2가지가 있다.
+      - 위 2개의 `Scope`는 `Step` 또는 `Job`실행 시점에 해당 컴포넌트를 `Spring Bean`으로 생성한다.
+      - `JobParameter`의 `Late Binding`이 가능하다. 즉, `Application`이 실행되는 시점이 아니더라도 `Controller`나 `Service`와 같은 비지니스 로직 처리 단계에서 `Job Parameter`를 할당시킬 수 있다.
+      - 동일한 컴포넌트를 병렬 혹은 동시에 사용할때 유용하다.
+    - 아래와 같이 `SpEL`로 선언해서 사용 가능하다.
+    - ```
+      @Value("#{jobParameters[파라미터명]}")
+      ```
+    - `jobParameters` 외에도 `jobExecutionContext`, `stepExecutionContext` 등도 `SpEL`로 사용할 수 있고 `@JobScope`에선 `stepExecutionContext`는 사용할 수 없다.
+    - `@JobScope`는 `Step` 선언문에서 사용 가능하고, `@StepScope`는 `Tasklet`이나 `ItemReader, ItemWriter, ItemProcessor`에서 사용할 수 있다.
 
 ### Index
 - [1. Spring Batch 프로젝트 생성하기](https://jojoldu.tistory.com/325?category=902551)
 - [2. 메타테이블 엿보기](https://jojoldu.tistory.com/326?category=902551)
 - [3. Spring Batch Job Flow](https://jojoldu.tistory.com/328?category=902551)
+- [4. Spring Batch Scope & Job Parameter](https://jojoldu.tistory.com/330?category=902551)
