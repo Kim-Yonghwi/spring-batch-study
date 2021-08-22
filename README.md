@@ -40,9 +40,21 @@
       ```
     - `jobParameters` 외에도 `jobExecutionContext`, `stepExecutionContext` 등도 `SpEL`로 사용할 수 있고 `@JobScope`에선 `stepExecutionContext`는 사용할 수 없다.
     - `@JobScope`는 `Step` 선언문에서 사용 가능하고, `@StepScope`는 `Tasklet`이나 `ItemReader, ItemWriter, ItemProcessor`에서 사용할 수 있다.
+- **Chunk**
+  - 데이터 덩어리로, chunk 지향 처리란 한 번에 하나씩 데이터를 읽어 `Chunk`라는 덩어리를 만든 뒤, `Chunk` 단위로 트랜잭션을 다루는 것을 의미한다.
+  - `Chunk` 단위로 트랜잭션을 수행하기 때문에 실패할 경우엔 해당 `Chunk` 만큼만 롤백이 되고, 이전에 커밋된 트랜잭션 범위까지는 반영이 된다.
+  - 처리 순서
+    - `Reader`에서 데이터를 하나 읽어온다.
+    - 읽어온 데이터를 `Processor`에서 가공한다.
+    - 가공된 데이터들을 별도의 공간에 모은 뒤, `Chunk` 단위만큼 쌓이게 되면 `Writer`에 전달하고 `Writer`는 일괄 저장한다.
+  - `Chunk Size`는 한번에 처리될 트랜잭션 단위를 얘기하며, `Page Size`는 한번에 조회할 `Item`의 `size`를 뜻한다.
 
-### Index
+### 학습 목차
 - [1. Spring Batch 프로젝트 생성하기](https://jojoldu.tistory.com/325?category=902551)
 - [2. 메타테이블 엿보기](https://jojoldu.tistory.com/326?category=902551)
 - [3. Spring Batch Job Flow](https://jojoldu.tistory.com/328?category=902551)
 - [4. Spring Batch Scope & Job Parameter](https://jojoldu.tistory.com/330?category=902551)
+- [5. Chunk 지향 처리](https://jojoldu.tistory.com/331?category=902551)
+
+### Document
+- [Spring Batch 공식 문서](https://docs.spring.io/spring-batch/docs/4.0.x/reference/html/index-single.html#spring-batch-intro)
