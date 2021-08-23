@@ -19,6 +19,11 @@ spring:
     activate:
       on-profile: mysql
 
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+
   datasource:
     hikari:
       jdbc-url: jdbc:mysql://localhost:3306/spring_batch?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC

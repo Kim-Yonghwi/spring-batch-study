@@ -48,6 +48,14 @@
     - 읽어온 데이터를 `Processor`에서 가공한다.
     - 가공된 데이터들을 별도의 공간에 모은 뒤, `Chunk` 단위만큼 쌓이게 되면 `Writer`에 전달하고 `Writer`는 일괄 저장한다.
   - `Chunk Size`는 한번에 처리될 트랜잭션 단위를 얘기하며, `Page Size`는 한번에 조회할 `Item`의 `size`를 뜻한다.
+- **ItemReader**
+  - 데이터를 읽어들이는 역할을 한다.
+  - 대표적인 구현체로 `JdbcPagingItemReader`가 있다.
+  - `Cursor` 또는 `Paging` 방식이 있다.
+  - `Cursor` 방식은 `DB`와 커넥션을 맺은 후, `Cursor`를 한칸씩 옮기면서 지속적으로 데이터를 가져오는 반면, `Paging` 방식에서는 한번에 10개 (혹은 개발자가 지정한 PageSize)만큼 데이터를 가져올 수 있다.
+- **ItemStream**
+  - 주기적으로 상태를 저장하고 오류가 발생하면 해당 상태에서 복원하기 위한 마커 인터페이스이다.
+  - 즉, 배치 프로세스의 실행 컨텍스트와 연계해서 `ItemReader`의 상태를 저장하고 실패한 곳에서 다시 실행할 수 있게 해주는 역할을 한다.
 
 ### 학습 목차
 - [1. Spring Batch 프로젝트 생성하기](https://jojoldu.tistory.com/325?category=902551)
@@ -55,6 +63,8 @@
 - [3. Spring Batch Job Flow](https://jojoldu.tistory.com/328?category=902551)
 - [4. Spring Batch Scope & Job Parameter](https://jojoldu.tistory.com/330?category=902551)
 - [5. Chunk 지향 처리](https://jojoldu.tistory.com/331?category=902551)
+- [6. ItemReader](https://jojoldu.tistory.com/336?category=902551)
+- [6-1. 영속성 컨텍스트 문제 (`processor`에서 `lazyException` 발생할때)](https://jojoldu.tistory.com/146)
 
 ### Document
 - [Spring Batch 공식 문서](https://docs.spring.io/spring-batch/docs/4.0.x/reference/html/index-single.html#spring-batch-intro)
