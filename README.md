@@ -56,6 +56,16 @@
 - **ItemStream**
   - 주기적으로 상태를 저장하고 오류가 발생하면 해당 상태에서 복원하기 위한 마커 인터페이스이다.
   - 즉, 배치 프로세스의 실행 컨텍스트와 연계해서 `ItemReader`의 상태를 저장하고 실패한 곳에서 다시 실행할 수 있게 해주는 역할을 한다.
+- **ItemWriter**
+  - `Spring Batch`에서 사용하는 출력 기능을 담당한다.
+  - `Chunk` 단위로 묶인 `item List`를 다룬다.
+  - `Writer`에 선언된 제네릭 타입은 `Reader/Processor`에서 넘겨준 타입을 사용한다.
+  - `Database Writer`
+    - `Writer`가 받은 모든 `Item`이 처리 된 후, `Spring Batch`는 현재 트랜잭션을 커밋한다.
+    - `JdbcBatchItemWriter`
+    - `HibernateItemWriter`
+    - `JpaItemWriter`
+  - `Spring Batch`에서 공식적으로 지원하지 않는 `Writer`를 사용하고 싶을때 `ItemWriter` 인터페이스를 구현하면 된다.
 
 ### 학습 목차
 - [1. Spring Batch 프로젝트 생성하기](https://jojoldu.tistory.com/325?category=902551)
@@ -64,7 +74,11 @@
 - [4. Spring Batch Scope & Job Parameter](https://jojoldu.tistory.com/330?category=902551)
 - [5. Chunk 지향 처리](https://jojoldu.tistory.com/331?category=902551)
 - [6. ItemReader](https://jojoldu.tistory.com/336?category=902551)
-- [6-1. 영속성 컨텍스트 문제 (`processor`에서 `lazyException` 발생할때)](https://jojoldu.tistory.com/146)
+  - [6-1. 영속성 컨텍스트 문제 (`processor`에서 `lazyException` 발생할때)](https://jojoldu.tistory.com/146)
+  - [6-2. `ItemReader`에서 `Read DB` 사용하기](https://jojoldu.tistory.com/506?category=902551)
+- [7. ItemWriter](https://jojoldu.tistory.com/339?category=902551)
+  - [7-1. `ItemWriter`에 List 전달하기](https://jojoldu.tistory.com/140)
+  - [7-2. ItemWriter 성능 비교](https://jojoldu.tistory.com/507?category=902551)
 
 ### Document
 - [Spring Batch 공식 문서](https://docs.spring.io/spring-batch/docs/4.0.x/reference/html/index-single.html#spring-batch-intro)
