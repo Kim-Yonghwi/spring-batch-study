@@ -1,7 +1,6 @@
 package com.seoulstore.batch.job
 
 import com.seoulstore.batch.entity.Product
-import com.seoulstore.batch.entity.Product2
 import org.slf4j.LoggerFactory
 import org.springframework.batch.core.Job
 import org.springframework.batch.core.Step
@@ -11,41 +10,44 @@ import org.springframework.batch.item.ItemProcessor
 import org.springframework.batch.item.ItemWriter
 import org.springframework.batch.item.database.JpaPagingItemReader
 import org.springframework.batch.item.database.builder.JpaPagingItemReaderBuilder
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import javax.persistence.EntityManagerFactory
 
 
 @Configuration
-class CustomItemWriterJobConfiguration(
+class ProcessorConvertJobConfiguration(
     private val jobBuilderFactory: JobBuilderFactory,
     private val stepBuilderFactory: StepBuilderFactory,
-    private val entityManagerFactory: EntityManagerFactory
+    private val entityManagerFactory: EntityManagerFactory,
+    @Value("\${chunk_size}")
+    private val chunkSize: Int
 ) {
     private val log = LoggerFactory.getLogger(this::class.java)
-    private val chunkSize = 5
 
     @Bean
-    fun customItemWriterJob(): Job {
-        return jobBuilderFactory["customItemWriterJob"]
-            .start(customItemWriterStep())
+    fun processorConvertJob(): Job {
+        return jobBuilderFactory["processorConvertJob"]
+            .preventRestart()
+            .start(processorConvertStep())
             .build()
     }
 
     @Bean
-    fun customItemWriterStep(): Step {
-        return stepBuilderFactory["customItemWriterStep"]
-            .chunk<Product, Product2>(chunkSize)
-            .reader(customItemWriterReader())
-            .processor(customItemWriterProcessor())
-            .writer(customItemWriter())
+    fun processorConvertStep(): Step {
+        return stepBuilderFactory["processorConvertStep"]
+            .chunk<Product, String>(chunkSize)
+            .reader(processorConvertReader())
+            .processor(processor())
+            .writer(writer())
             .build()
     }
 
     @Bean
-    fun customItemWriterReader(): JpaPagingItemReader<Product> {
+    fun processorConvertReader(): JpaPagingItemReader<Product> {
         return JpaPagingItemReaderBuilder<Product>()
-            .name("customItemWriterReader")
+            .name("processorConvertReader")
             .entityManagerFactory(entityManagerFactory)
             .pageSize(chunkSize)
             .queryString("SELECT p FROM Product p")
@@ -53,16 +55,14 @@ class CustomItemWriterJobConfiguration(
     }
 
     @Bean
-    fun customItemWriterProcessor(): ItemProcessor<Product, Product2> {
-        return ItemProcessor<Product, Product2> { p -> Product2(name = p.name) }
+    fun processor(): ItemProcessor<Product, String> {
+        return ItemProcessor<Product, String> { p -> p.name }
     }
 
     @Bean
-    fun customItemWriter(): ItemWriter<Product2> {
-        return ItemWriter<Product2> { items ->
-            for (item in items) {
-                log.info("Product2 = {}", item)
-            }
+    fun writer(): ItemWriter<String> {
+        return ItemWriter<String> { items ->
+            log.info("Product Names={}", items)
         }
     }
 }

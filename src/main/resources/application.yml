@@ -13,6 +13,8 @@ logging:
   level:
     org.springframework.batch: DEBUG
 
+chunk_size: ${chunk.size:5}
+
 --- # mysql
 spring:
   config:

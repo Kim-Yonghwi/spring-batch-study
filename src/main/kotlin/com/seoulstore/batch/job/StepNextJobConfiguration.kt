@@ -17,7 +17,7 @@ class StepNextJobConfiguration(
     private val jobBuilderFactory: JobBuilderFactory,
     private val stepBuilderFactory: StepBuilderFactory
 ) {
-    private val log = LoggerFactory.getLogger(StepNextJobConfiguration::class.java)
+    private val log = LoggerFactory.getLogger(this::class.java)
 
     @Bean
     fun stepNextJob(): Job {

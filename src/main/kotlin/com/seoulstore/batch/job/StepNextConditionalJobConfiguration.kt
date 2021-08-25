@@ -17,7 +17,7 @@ class StepNextConditionalJobConfiguration(
     private val jobBuilderFactory: JobBuilderFactory,
     private val stepBuilderFactory: StepBuilderFactory
 ) {
-    private val log = LoggerFactory.getLogger(StepNextConditionalJobConfiguration::class.java)
+    private val log = LoggerFactory.getLogger(this::class.java)
 
     /*
         on()

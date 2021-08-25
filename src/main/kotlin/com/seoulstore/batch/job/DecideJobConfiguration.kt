@@ -29,7 +29,7 @@ class DecideJobConfiguration(
     private val jobBuilderFactory: JobBuilderFactory,
     private val stepBuilderFactory: StepBuilderFactory
 ) {
-    private val log = LoggerFactory.getLogger(DecideJobConfiguration::class.java)
+    private val log = LoggerFactory.getLogger(this::class.java)
 
     @Bean
     fun deciderJob(): Job {

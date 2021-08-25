@@ -20,7 +20,7 @@ class JpaPagingItemReaderJobConfiguration(
     private val stepBuilderFactory: StepBuilderFactory,
     private val entityManagerFactory: EntityManagerFactory
 ) {
-    private val log = LoggerFactory.getLogger(JpaPagingItemReaderJobConfiguration::class.java)
+    private val log = LoggerFactory.getLogger(this::class.java)
     private val chunkSize = 5
 
     @Bean

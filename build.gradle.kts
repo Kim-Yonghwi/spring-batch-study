@@ -6,11 +6,9 @@ plugins {
     kotlin("jvm") version "1.4.31"
     kotlin("plugin.spring") version "1.4.31"
     kotlin("plugin.jpa") version "1.4.31"
-    /* JPA Proxy 객체를 만들기 위해서 반드시 적용해야 함 */
     kotlin("plugin.allopen") version "1.4.31"
 }
 
-// JPA Proxy 객체를 만들기 위해서 반드시 적용해야 함 - 상속 가능하도록 Open 처리
 allOpen {
     annotation("javax.persistence.Entity")
     annotation("javax.persistence.Embeddable")

@@ -66,6 +66,15 @@
     - `HibernateItemWriter`
     - `JpaItemWriter`
   - `Spring Batch`에서 공식적으로 지원하지 않는 `Writer`를 사용하고 싶을때 `ItemWriter` 인터페이스를 구현하면 된다.
+- **ItemProcessor**
+  - `ItemReader`로 읽어온 데이터를 가공하거나 필터링하는 역할을 한다.
+  - 비지니스 로직을 담당한다.
+  - 변환
+    - `Reader`에서 읽은 데이터를 원하는 타입으로 변환해서 `Writer`에 넘겨 줄 수 있다.
+  - 필터
+    - `Reader`에서 넘겨준 데이터를 `Writer`로 넘겨줄 것인지를 결정할 수 있다.
+    - `null`을 반환하면 `Writer`에 전달되지 않습니다.
+  - `Reader`에서 읽은 데이터가 `ItemProcessor`의 `process`를 통과해서 `Writer`에 전달된다.
 
 ### 학습 목차
 - [1. Spring Batch 프로젝트 생성하기](https://jojoldu.tistory.com/325?category=902551)
@@ -79,6 +88,7 @@
 - [7. ItemWriter](https://jojoldu.tistory.com/339?category=902551)
   - [7-1. `ItemWriter`에 List 전달하기](https://jojoldu.tistory.com/140)
   - [7-2. ItemWriter 성능 비교](https://jojoldu.tistory.com/507?category=902551)
+- [8. ItemProcessor](https://jojoldu.tistory.com/347?category=902551)
 
 ### Document
 - [Spring Batch 공식 문서](https://docs.spring.io/spring-batch/docs/4.0.x/reference/html/index-single.html#spring-batch-intro)

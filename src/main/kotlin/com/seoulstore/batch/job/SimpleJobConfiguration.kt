@@ -19,7 +19,7 @@ class SimpleJobConfiguration(
     private val jobBuilderFactory: JobBuilderFactory,
     private val stepBuilderFactory: StepBuilderFactory
 ) {
-    private val log = LoggerFactory.getLogger(SimpleJobConfiguration::class.java)
+    private val log = LoggerFactory.getLogger(this::class.java)
 
     @Bean
     fun simpleJob(): Job {
